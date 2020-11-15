@@ -56,7 +56,7 @@ Motion Planning for Mobile Robots
 ## 文章目录
 
 2. [Pre-requirement | 地图的表示](./01-地图的表示.md)
-2. Path Finding | 路径规划概述
+2. [Path Finding | 路径规划概述](./02-路径规划概述.md)
 3. Path Finding | 基于图搜索的路径规划算法：Dijkstra、A*、JPS
 4. Path Finding | 基于采样的路径规划算法：PRM、RRT、RRT* 
 5. Path Finding | 运动学约束下的路径规划算法：Kinodynamic RRT* 、Hybrid A* 
