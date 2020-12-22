@@ -32,36 +32,34 @@ Motion Planning for Mobile Robots
 
 所以本专栏将围绕运动规划的两个组成来安排文章内容，主要内容包括：
 
-- 前端：路径生成算法(Path finding algorithm)
+- 路径生成算法(Path finding algorithm)
 
   这部分将分别对基于图搜索的算法(Dijkstra / A* / JPS等)、基于采样的算法(PRM / RRT / RRT* 等)、运动学约束下的路径规划算法(Kinodynamic RRT* / Hybrid A* 等)进行分析和讲解
 
-- 后端：轨迹生成/优化(Trajectory generation/optimization)
+- 轨迹生成/优化(Trajectory generation/optimization)
 
   这部分主要对Minimum-snap轨迹优化算法进行分析
 
 以及每部分都会有的：
 
-- 算法验证(Python)
-- 算法部署(C++，基于ROS)
+- 算法仿真(C#) 
 
 在阅读之前，我希望你有如下的基础：
 
 - 线性代数
 - 概率论
-- Python
-- C++ (Optional)
-- ROS (Optional)
+- C#
 
 ## 文章目录
 
-1. [Pre-requirement | 地图的表示](./01-地图的表示.md)
-2. [Path Finding | 基于图搜索的路径规划算法：Dijkstra、A*、JPS](02-基于图搜索的路径规划算法.md)
-3. Path Finding | 基于采样的路径规划算法：PRM、RRT、RRT* 
-4. Path Finding | 运动学约束下的路径规划算法：Kinodynamic RRT* 、Hybrid A* 
-5. [Path Finding | 路径规划总结](./05-路径规划总结.md)
-6. Trajectory Optimization | 轨迹生成算法：Minimum-snap
-7. Trajectory Optimization | 软约束和硬约束下的轨迹优化
+1. [Pre-requirement：地图的表示方法](./01-地图的表示.md)
+2. [基于图搜索的路径规划算法：Dijkstra、A*](02-基于图搜索的路径规划算法.md)
+3. [基于图搜索的路径规划算法：JPS](03-JPS算法.md)
+4. 基于采样的路径规划算法：PRM、RRT、RRT* 
+5. 运动学约束下的路径规划算法：Kinodynamic RRT* 、Hybrid A* 
+6. [路径规划算法总结](./05-路径规划总结.md)
+7. 轨迹生成算法：Minimum-snap
+8. 软约束和硬约束下的轨迹优化
 
 
 
