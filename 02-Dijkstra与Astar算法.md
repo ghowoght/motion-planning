@@ -132,7 +132,7 @@ $$
 
 <img src="img/02-图搜索/02-Dijkstra-02.png" alt="流程图" style="zoom:80%;" />
 
-最后标出左上角节点到右下角节点的最短路径
+最后标出起点到终点的最短路径
 
 <img src="img/02-图搜索/02-Dijkstra-03.png" alt="示例结果" style="zoom: 80%;" />
 
