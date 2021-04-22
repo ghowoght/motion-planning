@@ -24,11 +24,11 @@ JPS算法，顾名思义，它的算法核心就是寻找**跳点(Jump Point)**�
 
 <img src="img/03-JPS/02-强迫邻居-02.png" alt="02-强迫邻居-02" style="zoom:80%;" />
 
-上文中提到从parent节点到Current节点的过程称为**跳跃(Jump)**，分为直线跳跃(Jumping Straight)和对角线跳跃(Jumping Diagonally)，直线跳跃又分为水平跳跃和垂直跳跃，如下图，橙色箭头表示直线跳跃，紫色箭头表示对角线跳跃。一般情况都是先直线跳跃，再进行对角线跳跃。在进行直线跳跃时，如果跳跃到障碍物或者边界，则返回parent进行对角线跳跃；当对角线跳跃后的节点是障碍物或者边界时，则停止跳跃。
+上文中提到从parent节点到Current节点的过程称为**跳跃(Jump)**，分为**直线跳跃(Jumping Straight)**和**对角线跳跃(Jumping Diagonally)**，直线跳跃又分为水平跳跃和垂直跳跃，如下图，橙色箭头表示直线跳跃，紫色箭头表示对角线跳跃。一般情况都是先直线跳跃，再进行对角线跳跃。在进行直线跳跃时，如果跳跃到障碍物或者边界，则返回parent进行对角线跳跃；当对角线跳跃后的节点是障碍物或者边界时，则停止跳跃。
 
 <img src="img/03-JPS/02-跳跃.png" alt="02-跳跃" style="zoom:80%;" />
 
-所以定义：**具有强迫邻居的节点就是跳点**。当然这个定义并不严格，如下图，绿色的node就是从openlist中弹出的节点，从Start进行对角线跳跃到蓝色的parent节点，再由parent直线跳跃至current，发现current具有一个Forced Neighbor，所以current是一个跳点，但是从node到current不能直接进行跳跃，而是要经过parent，所以parent也是一个跳点。所以继续定义：**如果节点x由前一个节点经过对角线跳跃得到，同时从x进行直线跳跃得到的current节点是一个跳点，那么节点x也是跳点。**
+所以定义：**具有强迫邻居的节点就是跳点**。当然这个定义并不严格，如下图，绿色的node就是从openlist中弹出的节点，从node进行对角线跳跃到蓝色的parent节点，再由parent直线跳跃至current，发现current具有一个Forced Neighbor，所以current是一个跳点，但是从node到current不能直接进行跳跃，而是要经过parent，所以parent也是一个跳点。所以继续定义：**如果节点x由前一个节点经过对角线跳跃得到，同时从x进行直线跳跃得到的current节点是一个跳点，那么节点x也是跳点。**
 
 <img src="img/03-JPS/02-强迫邻居-03.png" alt="02-强迫邻居-03" style="zoom:80%;" />
 
@@ -40,6 +40,8 @@ f(n)=g(n)+h(n)
 $$
 区别于A\*中的节点类，JPS中还需要添加一个`forced_neighbor_list`，用它来保存强迫节点相对于该节点的位置，指示该节点的跳跃方向。举个栗子，如果强迫节点在该节点的右上方，同时使用$(1,1)$表示右上方，那么可以将$(1, 1)$加入该节点的`forced_neighbor_list`，当从openlist弹出该节点时，就可以继续往强迫节点的方向$(1,1)$进行跳跃(包括直线和对角线跳跃)。
 
+具体流程如下：
+
 - 初始化起点节点`start`，将起点周围四个角落的空闲节点相对于起点的相对位置加入起点节点的`forced_neighbor_list`
 - 创建一个`openlist`，将`start`加入`openlist`
 - while openlist is not empty:
@@ -50,7 +52,7 @@ $$
     - 如果current是障碍物或者边界，则进行对角线跳跃；
     - 如果parent是障碍物或者边界，则进入下一轮循环。
 
-C#实现见：https://gitee.com/ghowoght/motion-planner/blob/develop/MotionPlanner/SearchBased/JPS.cs
+C#实现见：[https://gitee.com/ghowoght/motion-planner/blob/develop/MotionPlanner/SearchBased/JPS.cs](https://gitee.com/ghowoght/motion-planner/blob/develop/MotionPlanner/SearchBased/JPS.cs)
 
 ## 仿真分析
 
@@ -69,5 +71,3 @@ C#实现见：https://gitee.com/ghowoght/motion-planner/blob/develop/MotionPlann
 ## 参考
 
 Harabor D D ,  Grastien A . Online Graph Pruning for Pathfinding on Grid Maps[C]// Aaai Conference on Artificial Intelligence. DBLP, 2011.
-
-https://blog.csdn.net/u011265162/article/details/91048927
