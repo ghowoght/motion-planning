@@ -38,7 +38,7 @@ Motion Planning for Mobile Robots
 
 - 轨迹生成/优化(Trajectory generation/optimization)
 
-  这部分主要对Minimum-snap轨迹优化算法进行分析
+  这部分主要对Minimum-jerk轨迹优化算法进行分析
 
 ## 文章目录
 
@@ -47,7 +47,7 @@ Motion Planning for Mobile Robots
 3. [基于图搜索的路径规划算法：JPS](03-JPS算法.md)
 4. [基于采样的路径规划算法：PRM、RRT、RRT*](04-基于采样的路径规划算法.md) 
 5. 运动学约束下的路径规划算法：Kinodynamic RRT* 、Hybrid A* 
-7. 轨迹生成算法：Minimum-snap
+7. [轨迹生成算法：Minimum-jerk](06-轨迹优化：Minimum-jerk.md)
 8. 软约束和硬约束下的轨迹优化
 
 
