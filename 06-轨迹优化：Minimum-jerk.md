@@ -179,8 +179,8 @@ J(p)&=\sum_{i=1}^M\int_{T_{i-1}}^{T_i}(f^{(3)}(t))^2\\
 $$
 其中：
 
-- $p=\begin{bmatrix}p_1^T&p_2^T&\cdots&&p_M^T\end{bmatrix}^T=\begin{bmatrix}p_{1,0}&p_{1,1}&\cdots&p_{1,K}&p_{2,0}&\cdots&&p_{M,K}\end{bmatrix}^T$是优化变量，它是每一段多项式轨迹系数的列组合，其维数为$M(K+1)\times1$。
-- Q是一个维数为$M(K+1)\times M(K+1)$的实对称矩阵
+- $p=\begin{bmatrix}p_1^T&p_2^T&\cdots&&p_M^T\end{bmatrix}^T=\begin{bmatrix}p_{1,0}&p_{1,1}&\cdots&p_{1,K}&p_{2,0}&\cdots&&p_{M,K}\end{bmatrix}^T$是优化变量，它是每一段多项式轨迹系数的列组合，其维数为$M(Order+1)\times1$。
+- Q是一个维数为$M(Order+1)\times M(Order+1)$的实对称矩阵
 
 显然，$J(p)$是一个二次型，所以基于Minimum-jerk的轨迹优化问题可以转换为一个二次规划问题。
 
