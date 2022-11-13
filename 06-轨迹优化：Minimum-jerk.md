@@ -44,25 +44,25 @@ $$
 
 ## 轨迹表示形式
 
-使用路径规划可以得到一系列的路径点，这些路径点是不带时间信息的，而轨迹则是时间$t$的函数，一般用**$n$阶多项式**表示，即：
+使用路径规划可以得到一系列的路径点，这些路径点是不带时间信息的，而轨迹则是时间$t$的函数，一般用$n$**阶多项式**表示，即：
 $$
 \begin{aligned}
 f(t)&=p_0+p_1t+p_2t^2+\cdots+p_nt^n\\
 &=\sum_\limits{i=0}^np_it^i
 \end{aligned}
 $$
+
 其中$p_0,p_1,\cdots,p_n$是轨迹参数，也是我们的优化参数。将$f(t)$写成向量相乘形式，得到：
 $$
 f(t)=\begin{bmatrix}1&t&\cdots&t^n\end{bmatrix}\begin{bmatrix}p_0\\p_1\\\vdots\\p_n\end{bmatrix}
 $$
 对轨迹函数求导，还能写出速度、加速度、jerk等参数随时间变化的函数：
+
 $$
 \begin{aligned}
 vel(t)&=f^{(1)}(t)=\begin{bmatrix}0&1&2t&3t^2&\cdots&\frac{n!}{(n-1)!}t^{n-1}\end{bmatrix}\cdot p\\
 acc(t)&=f^{(2)}(t)=\begin{bmatrix}0&0&2&6t&\cdots&\frac{n!}{(n-2)!}t^{n-2}\end{bmatrix}\cdot p\\
 jerk(t)&=f^{(3)}(t)=\begin{bmatrix}0&0&0&6&\cdots&\frac{n!}{(n-3)!}t^{n-3}\end{bmatrix}\cdot p\\
-
-
 \end{aligned}
 $$
 其中：$p=\begin{bmatrix}p_0&p_1&\cdots&p_n\end{bmatrix}^T$，概括得到轨迹导数的通式，$k$表示$k$阶导数：
@@ -113,9 +113,8 @@ $$
 $jerk(t)$可表示为：
 $$
 \begin{aligned}
-jerk(t)=f^{(3)}(t)&=3p_3+12tp_4+20t^2p_5\\
-&=\begin{bmatrix}0&0&0&6&12t&20t^2\end{bmatrix}\cdot p
-
+jerk(t)=f^{(3)}(t)&=6p_3+24tp_4+60t^2p_5\\
+&=\begin{bmatrix}0&0&0&6&24t&60t^2\end{bmatrix}\cdot p
 \end{aligned}
 $$
 要使其最小，也就是使$jerk(t)$在整段时间上的积分最小，在minimum-jerk中选择使$jerk(t)$的2-范数最小即：
@@ -128,10 +127,10 @@ J(p)=\sum_{i=1}^M\int_{T_{i-1}}^{T_i}(f^{(3)}(t))^2dt
 $$
 
 
-令$a=\begin{bmatrix}0&0&0&6&12t&20t^2\end{bmatrix}^T$，对$f^{(3)}(t)$求平方，得到：
+令$a=\begin{bmatrix}0&0&0&6&24t&60t^2\end{bmatrix}^T$，对$f^{(3)}(t)$求平方，得到：
 $$
 \begin{aligned}
-(f^{(3)}(t))^2&=(\begin{bmatrix}0&0&0&6&12t&20t^2\end{bmatrix}\cdot p)^T(\begin{bmatrix}0&0&0&6&12t&20t^2\end{bmatrix}\cdot p)\\
+(f^{(3)}(t))^2&=(\begin{bmatrix}0&0&0&6&24t&60t^2\end{bmatrix}\cdot p)^T(\begin{bmatrix}0&0&0&6&24t&60t^2\end{bmatrix}\cdot p)\\
 &=(a^Tp)^T(a^Tp)\\
 &=p^Taa^Tp
 \end{aligned}
@@ -139,12 +138,12 @@ $$
 令$A(t) = aa^T$，得到：
 $$
 \begin{aligned}
-A=aa^T=\begin{bmatrix}0\\0\\0\\6\\12t\\20t^2\end{bmatrix}\begin{bmatrix}0&0&0&6&12t&20t^2\end{bmatrix}
+A=aa^T=\begin{bmatrix}0\\0\\0\\6\\24t\\60t^2\end{bmatrix}\begin{bmatrix}0&0&0&6&24t&60t^2\end{bmatrix}
 =\begin{bmatrix}
 0&0&0&0&0&0\\0&0&0&0&0&0\\0&0&0&0&0&0\\
-0&0&0&36&72t&120t^2\\
-0&0&0&72t&144t^2&240t^3\\
-0&0&0&120t^2&240t^3&400t^4
+0&0&0&36&144t&360t^2\\
+0&0&0&144t&576t^2&1440t^3\\
+0&0&0&360t^2&1440t^3&3600t^4
 \end{bmatrix}
 \end{aligned}
 $$
@@ -157,12 +156,7 @@ $$
 $$
 令$A(t)$的积分为矩阵$Q$，则：
 $$
-Q=\int_{T_{i-1}}^{T_i}A(t)dt=\begin{bmatrix}
-0&0&0&0&0&0\\0&0&0&0&0&0\\0&0&0&0&0&0\\
-0&0&0&36t&36t^2&40t^3\\
-0&0&0&36t^2&48t^3&60t^4\\
-0&0&0&40t^3&60t^4&80t^5
-\end{bmatrix}^{T_i}_{T_{i-1}}
+Q=\int_{T_{i-1}}^{T_i}A(t)dt=\begin{bmatrix} 0&0&0&0&0&0\\0&0&0&0&0&0\\0&0&0&0&0&0\\ 0&0&0&36t&72t^2&120t^3\\ 0&0&0&72t^2&192t^3&360t^4\\ 0&0&0&120t^3&360t^4&720t^5 \end{bmatrix}^{T_i}_{T_{i-1}}
 $$
 最终的目标函数可表述为：
 $$
@@ -182,7 +176,7 @@ $$
 - $p=\begin{bmatrix}p_1^T&p_2^T&\cdots&&p_M^T\end{bmatrix}^T=\begin{bmatrix}p_{1,0}&p_{1,1}&\cdots&p_{1,K}&p_{2,0}&\cdots&&p_{M,K}\end{bmatrix}^T$是优化变量，它是每一段多项式轨迹系数的列组合，其维数为$M(Order+1)\times1$。
 - Q是一个维数为$M(Order+1)\times M(Order+1)$的实对称矩阵
 
-显然，$J(p)$是一个二次型，所以基于Minimum-jerk的轨迹优化问题可以转换为一个二次规划问题。
+显然，$J(p)$是一个二次型，所以**基于Minimum-jerk的轨迹优化问题可以转换为一个二次规划问题**。
 
 以上定义了Minimum-jerk中的目标函数，接下来添加约束。如果不考虑障碍物，主要有两类约束，一类是**导数约束(Derivative Constraint)**，它约束了轨迹的初始状态和终止状态，以及每一段轨迹的开始/结束位置，也就是**用路径规划得到的路径点对轨迹进行约束**；另一类约束是**连续性约束(Continuity Constraint)**，它可以使相邻轨迹平滑过渡。
 
@@ -254,7 +248,6 @@ T = np.linspace(0, deltaT * (len(x) - 1), len(x))
 
 ########### 目标函数 ###########
 ######## 1/2xTQx + qTx ########
-
 K = 3                   # jerk为3阶导数，取K=3
 n_order = 2 * K - 1     # 多项式阶数
 M = len(x) - 1          # 轨迹的段数
@@ -262,13 +255,13 @@ N = M * (n_order + 1)   # 矩阵Q的维数
 
 def getQk(T_down, T_up):
     Q = np.zeros((6, 6))
-    Q[3][4] = 36 * (T_up**2 - T_down**2)
-    Q[3][5] = 40 * (T_up**3 - T_down**3)
-    Q[4][5] = 60 * (T_up**4 - T_down**4)
+    Q[3][4] =  72 * (T_up**2 - T_down**2)
+    Q[3][5] = 120 * (T_up**3 - T_down**3)
+    Q[4][5] = 360 * (T_up**4 - T_down**4)
     Q = Q + Q.T # Q为对称矩阵
-    Q[3][3] = 36 * (T_up**1 - T_down**1)
-    Q[4][4] = 48 * (T_up**3 - T_down**3)
-    Q[5][5] = 80 * (T_up**5 - T_down**5)
+    Q[3][3] =  36 * (T_up**1 - T_down**1)
+    Q[4][4] = 192 * (T_up**3 - T_down**3)
+    Q[5][5] = 720 * (T_up**5 - T_down**5)
     return Q
     
 Q = np.zeros((N, N))
@@ -308,12 +301,9 @@ for m in range(M - 1):
             c = 1
             for j in range(k):
                 c *= (i - j)
-            
             index = m * 3 + k
             A1[index][m * 6 + i] = c * T[m + 1]**(i - k)
             A1[index][(m + 1)* 6 + i] = -c * T[m + 1]**(i - k)
-
-
 A = np.vstack((A0, A1))
 b = np.hstack((b0, b1))
 #%% 解二次规划问题
@@ -327,7 +317,7 @@ b = matrix(b)
 result = solvers.qp(Q, q, A=A, b=b)
 p_coff = np.asarray(result['x']).flatten()
 
-#%% 可视化结果
+#%% 可视化x轴优化结果
 Pos = []
 Vel = []
 Acc = []
@@ -344,7 +334,6 @@ for k in range(M):
     Pos.append([t, pos[0]])
     Vel.append([t, vel[0]])
     Acc.append([t, acc[0]])
-
 Pos = np.array(Pos)
 Vel = np.array(Vel)
 Acc = np.array(Acc)
@@ -365,14 +354,9 @@ plt.xlabel("time(s)")
 plt.ylabel("accel(m/s^2)")
 plt.show()
 ```
+x轴上的规划结果如下，可以看到生成轨迹的位置、速度和加速度曲线都是连续的。
 
-
-
-结果如下，可以看到生成轨迹的位置、速度和加速度曲线都是连续的，注意到加速度曲线不是光滑的，是因为Minimum-jerk算法只要求轨迹连接处的位置、速度、加速度一致，而不要求加速度的导数jerk是连续的。如果要使加速度光滑，则要求轨迹连接处的jerk也一致，这就需要用到Minimum-snap算法了。
-
-| ![01-位置曲线](img/06-轨迹优化：Minimum-jerk/01-位置曲线-2.png) | ![02-速度曲线](img/06-轨迹优化：Minimum-jerk/02-速度曲线-2.png) | ![03-加速度曲线](img/06-轨迹优化：Minimum-jerk/03-加速度曲线-2.png) |
-| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-|                           位置曲线                           |                           速度曲线                           |                          加速度曲线                          |
+<img src="img/06-轨迹优化：Minimum-jerk/04-pva曲线.png" alt="00-优化结果" style="zoom:50%;" />
 
 分别求X轴和Y轴方向的轨迹，合并后的结果如下图，程序见[这里](https://gitee.com/ghowoght/motion-planner/blob/develop/scripts/trajectory_optimization.py)
 
